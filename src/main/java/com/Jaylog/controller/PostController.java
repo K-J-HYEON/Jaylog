@@ -1,21 +1,36 @@
 package com.Jaylog.controller;
 
 
+import com.Jaylog.request.PostCreate;
+import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.*;
 
-// SSR -> JSP, THYMELEAF, MYSTACHE, FREEMARKER
-// SPA -> VUE -> vue + ssr = nuxt,js => 이걸로 할 예정
-// REACT -> react + ssr => next.js
-// -> javascript + <-> API (JSON)
+import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-// 데이터 기반으로 api 응답한다.
+@Slf4j
 @RestController
 public class PostController {
 
-    @GetMapping("/posts")
-    public String get() {
-        return "Hello World";
+    @PostMapping("/posts")
+    public Map<String, String> post(@RequestBody @Valid PostCreate params, @NotNull BindingResult result) {
+        if (result.hasErrors()) {
+            List<FieldError> fieldErrors = result.getFieldErrors();
+            FieldError firstFieldError = fieldErrors.get(0);
+            String fieldName =  firstFieldError.getField();// title
+            String errorMessage = firstFieldError.getDefaultMessage();// 에러메시지
+
+            Map<String, String> error = new HashMap<>();
+            error.put(fieldName, errorMessage);
+            return error;
+        }
+
+        return Map.of();
     }
 }
