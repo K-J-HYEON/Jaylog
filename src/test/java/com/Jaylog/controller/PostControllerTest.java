@@ -40,7 +40,9 @@ class PostControllerTest {
         // expected
         mockMvc.perform(post("/posts")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"title\": \"\", \"content\": \"내용입니다.\"}")
+                // {"title":""}
+                // {"title": null}
+                        .content("{\"title\": null, \"content\": \"내용입니다.\"}")
                 )
                 .andExpect(status().isOk())
                 .andExpect(content().string("Hello World"))

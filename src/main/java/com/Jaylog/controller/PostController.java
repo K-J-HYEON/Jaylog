@@ -20,6 +20,8 @@ public class PostController {
 
     @PostMapping("/posts")
     public Map<String, String> post(@RequestBody @Valid PostCreate params, @NotNull BindingResult result) {
+        String title = params.getTitle();
+
         if (result.hasErrors()) {
             List<FieldError> fieldErrors = result.getFieldErrors();
             FieldError firstFieldError = fieldErrors.get(0);
