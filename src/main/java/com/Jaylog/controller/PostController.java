@@ -1,6 +1,5 @@
 package com.Jaylog.controller;
 
-
 import com.Jaylog.request.PostCreate;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -19,20 +18,7 @@ import java.util.Map;
 public class PostController {
 
     @PostMapping("/posts")
-    public Map<String, String> post(@RequestBody @Valid PostCreate params, @NotNull BindingResult result) {
-        String title = params.getTitle();
-
-        if (result.hasErrors()) {
-            List<FieldError> fieldErrors = result.getFieldErrors();
-            FieldError firstFieldError = fieldErrors.get(0);
-            String fieldName =  firstFieldError.getField();// title
-            String errorMessage = firstFieldError.getDefaultMessage();// 에러메시지
-
-            Map<String, String> error = new HashMap<>();
-            error.put(fieldName, errorMessage);
-            return error;
-        }
-
+    public Map<String, String> post(@RequestBody @Valid PostCreate params) {
         return Map.of();
     }
 }
