@@ -3,15 +3,17 @@ package com.Jaylog.service;
 import com.Jaylog.domain.Post;
 import com.Jaylog.repository.PostRepository;
 import com.Jaylog.request.PostCreate;
-import org.junit.jupiter.api.Assertions;
+import com.Jaylog.response.PostResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 class PostServiceTest {
@@ -57,15 +59,40 @@ class PostServiceTest {
                 .build();
         postRepository.save(requestPost);
 
-        // when
+        // 클라이언트 요구사항
+        // json응답에서 title값 길이를 최대 10글자로 해주세요.
 
+        // when
+        PostResponse response = postService.get(requestPost.getId());
 
         // then
-        Post post = postService.get(requestPost.getId());
 
-        assertNotNull(post);
+        assertNotNull(response);
         assertEquals(1L, postRepository.count());
-        assertEquals("foo", post.getTitle());
-        assertEquals("bar", post.getContent());
+        assertEquals("foo", response.getTitle());
+        assertEquals("bar", response.getContent());
+    }
+
+    @Test
+    @DisplayName("글 여러개 조회")
+    void test3() {
+        // given
+        Post requestPost1 = Post.builder()
+                .title("foo1")
+                .content("bar1")
+                .build();
+        postRepository.save(requestPost1);
+
+        Post requestPost2 = Post.builder()
+                .title("foo2")
+                .content("bar2")
+                .build();
+        postRepository.save(requestPost2);
+
+        // when
+        List<Post> posts = postService.getList();
+
+        // then
+        assertEquals(2L, posts.size());
     }
 }

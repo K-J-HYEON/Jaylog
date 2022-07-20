@@ -3,12 +3,12 @@ package com.Jaylog.service;
 import com.Jaylog.domain.Post;
 import com.Jaylog.repository.PostRepository;
 import com.Jaylog.request.PostCreate;
+import com.Jaylog.response.PostResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.Optional;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -26,10 +26,18 @@ public class PostService {
         postRepository.save(post);
     }
 
-    public Post get(Long id) {
+    public PostResponse get(Long id) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(("존재하지 않는 글입니다.")));
 
-        return post;
+        return PostResponse.builder()
+                .id(post.getId())
+                .title(post.getTitle())
+                .content(post.getContent())
+                .build();
+    }
+
+    public List<Post> getList() {
+        return postRepository.findAll();
     }
 }
