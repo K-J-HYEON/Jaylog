@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -50,7 +52,7 @@ class PostServiceTest {
     }
 
     @Test
-    @DisplayName("글 1개 조회")
+    @DisplayName("글 1페이지 조회")
     void test2() {
         // given
         Post requestPost = Post.builder()
@@ -74,25 +76,23 @@ class PostServiceTest {
     }
 
     @Test
-    @DisplayName("글 여러개 조회")
+    @DisplayName("글 1페이지 조회")
     void test3() {
         // given
-        Post requestPost1 = Post.builder()
-                .title("foo1")
-                .content("bar1")
-                .build();
-        postRepository.save(requestPost1);
-
-        Post requestPost2 = Post.builder()
-                .title("foo2")
-                .content("bar2")
-                .build();
-        postRepository.save(requestPost2);
+        List<Post> requestPosts = IntStream.range(1, 31)
+                .mapToObj(i -> Post.builder()
+                        .title("제이지 제목" + i)
+                        .content("반포자이" + i)
+                        .build())
+                .collect(Collectors.toList());
+        postRepository.saveAll(requestPosts);
 
         // when
-        List<Post> posts = postService.getList();
+        List<PostResponse> posts = postService.getList(0);
 
         // then
-        assertEquals(2L, posts.size());
+        assertEquals(5L, posts.size());
+        assertEquals("호돌맨 제목 30", posts.get(0).getTitle());
+        assertEquals("호돌맨 제목 26", posts.get(4).getTitle());
     }
 }

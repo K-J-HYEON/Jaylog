@@ -1,6 +1,5 @@
 package com.Jaylog.controller;
 
-import com.Jaylog.domain.Post;
 import com.Jaylog.request.PostCreate;
 import com.Jaylog.response.PostResponse;
 import com.Jaylog.service.PostService;
@@ -23,17 +22,13 @@ public class PostController {
         postService.write(request);
     }
 
-    // 조회 API
-    // 여러개의 글을 조회 API
-    // /posts
-
     @GetMapping("/posts/{postId}")
     public PostResponse get(@PathVariable Long postId) {
         return postService.get(postId);
     }
 
     @GetMapping("/posts")
-    public List<Post> getList() {
-        return postService.getList();
+    public List<PostResponse> getList() {
+        return postService.getList(1);
     }
 }
