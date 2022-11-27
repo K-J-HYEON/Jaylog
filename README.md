@@ -1,5 +1,5 @@
 # Jaylog 👍
-### hodolog 완성시 계속해서 업데이트 예정
+### blog or shopping mall 만들어 
 
 # 1. API 만들기
 ##### 컨트롤러 및 POST 데이터 콘텐츠 타입 생성
