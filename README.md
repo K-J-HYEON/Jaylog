@@ -1,5 +1,5 @@
 # Jaylog 👍
-### blog or shopping mall 만들어 
+### blog or shopping mall 만들기
 
 # 1. API 만들기
 ##### 컨트롤러 및 POST 데이터 콘텐츠 타입 생성
@@ -7,7 +7,10 @@
 ##### 게시글 저장 구현 및 클래스 분리
 ##### 단건 조회 및 응답 클래스 분리 & 게시글 여러개 조회
 ##### 페이징 처리 & QueryDSL 변환
+
 ##### 게시글 수정 및 삭제
+1. ###### @ModelAttribute 참고 블로그(https://kimyhcj.tistory.com/259)
+
 ##### 예외처리
 
 
